@@ -43,3 +43,16 @@ Suggerimenti italian
  poi abbiamo un ol con degli li che contengono i singoli brani contenuti nell'album  
 
  ---
+
+ Pagina artista
+
+ immagine (rounded 50%)
+ nome artista
+ genere musica artista
+ ascoltatori mensili
+ tasto play identico ad album
+
+ abbiamo una ul con degli li ordinati in base alla popolarità
+ negli li ci sono le canzoni dell'artista
+
+ ---
