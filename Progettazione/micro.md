@@ -3,6 +3,23 @@ endpointPop = search?term=pop&media=music&entity=album&country=IT&limit=10
 endpointRock = search?term=rock&media=music&entity=album&country=IT&limit=10
 endpointItalian = search?term=italian+pop&media=music&entity=album&country=IT&limit=10
 
+search1 = 'search?term='
+{baseurl} {search1}
+
+search2 = 'search?term='
+{baseurl} {search2}
+
+search3 = 'search?term='
+{baseurl} {search3}
+
+
+
+[https://itunes.apple.com/search?term=](https://itunes.apple.com/search?term=){query}&media=music&entity=song&country=IT&limit=10
+
+Artisti: [https://itunes.apple.com/search?term=](https://itunes.apple.com/search?term=){query}&media=music&entity=musicArtist&country=IT&limit=10
+
+Album: [https://itunes.apple.com/search?term=](https://itunes.apple.com/search?term=){query}&media=music&entity=album&country=IT&limit=10
+
 indext.html la prima griglia che mostriamo a chermo e POP 
 {BaseURLAPI} ${endpointPop}
 
@@ -55,3 +72,22 @@ function Card(nomeArtista,immagine,nomeCanzone){
     card.append(nomeCanzone,nomeArtista)
 }
 
+<!-- SEARCH SECTION -->
+
+un input di testo brani, artisti e album (promiseAll)
+
+render (di row) Brani, album, artisti riutilizzando il componente Card esistente e configurandolo tramite parametri,
+tutti i dati sono correlati al filtro di ricerca.
+
+
+
+<!--  Pagina artista -->
+
+fa riferimento all'endpoint artista
+immagine artista
+nome artista
+genere musicale
+numero ascolti
+button play
+
+abbiamo una ul con una li
