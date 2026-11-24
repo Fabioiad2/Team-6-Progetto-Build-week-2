@@ -5,8 +5,8 @@ const baseUrl = 'https://itunes.apple.com/'
 const popEndpoint = 'search?term=pop&media=music&entity=album&country=IT&limit=10'
 async function get(){
     try{
-        const resoponse = await fetch(`${baseUrl}${popEndpoint}`)
-        const data = await resoponse.json()
+        const response = await fetch(`${baseUrl}${popEndpoint}`)
+        const data = await response.json()
         dati.push(data.results)
         console.log(data)
         dati.forEach(d=>{
