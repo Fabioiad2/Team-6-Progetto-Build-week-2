@@ -81,7 +81,63 @@ function cardSuggerimenti(array){
 }
 
 
+// ---------- SIDEBAR ---------- //
+const sidebar = document.querySelector('.sidebar');
 
+// logo
+const logo = document.createElement('h1');
+logo.classList.add('sidebar-logo');
+logo.textContent = '🎵 Epitunes';
+
+// menu: Home e Cerca
+const menu = document.createElement('nav');
+menu.classList.add('sidebar-menu');
+
+const linkHome = document.createElement('a');
+linkHome.href = 'index.html';
+linkHome.textContent = '🏠Home';
+
+const linkCerca = document.createElement('a');
+linkCerca.href = 'search.html';
+linkCerca.textContent = 'Cerca';
+
+menu.appendChild(linkHome);
+menu.appendChild(linkCerca);
+
+// preferiti
+const titoloPreferiti = document.createElement('h2');
+titoloPreferiti.classList.add('sidebar-title');
+titoloPreferiti.textContent = 'I tuoi preferiti';
+
+const listaPreferiti = document.createElement('ul');
+listaPreferiti.classList.add('sidebar-favorites');
+
+function stampaPreferiti() {
+  listaPreferiti.textContent = ''; // svuota la lista prima di riempirla
+
+  const favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+
+  if (favorites.length === 0) {
+    const vuoto = document.createElement('li');
+    vuoto.textContent = 'Nessun preferito';
+    listaPreferiti.appendChild(vuoto);
+    return;
+  }
+
+  favorites.forEach((fav) => {
+    const li = document.createElement('li');
+    li.textContent = fav.title; // da adattare alla struttura che scegliete
+    listaPreferiti.appendChild(li);
+  });
+}
+
+stampaPreferiti();
+
+// monto tutto nella sidebar
+sidebar.appendChild(logo);
+sidebar.appendChild(menu);
+sidebar.appendChild(titoloPreferiti);
+sidebar.appendChild(listaPreferiti);
 
 
 
