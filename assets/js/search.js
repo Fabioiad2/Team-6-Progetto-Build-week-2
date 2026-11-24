@@ -26,7 +26,7 @@ async function FetchData(query) {
 
         console.log(await Artisti.results,"Artisti")
         console.log(await Album.results,"album")
-        console.log(await Brani.results,"album")
+        console.log(await Brani.results,"brani")
     }
     catch (err) {
         console.error(err)
