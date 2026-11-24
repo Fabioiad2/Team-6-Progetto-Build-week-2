@@ -3,6 +3,7 @@ const endpointAlbum = '&entity=album'
 const dati = []
 const baseUrl = 'https://itunes.apple.com/'
 const popEndpoint = 'search?term=pop&media=music&entity=album&country=IT&limit=10'
+
 async function get(){
     try{
         const response = await fetch(`${baseUrl}${popEndpoint}`)
@@ -23,9 +24,35 @@ get()
 
 const popRow = document.querySelector('#popRow')
 
+function Card(nomeArtista, immagine, nomeCanzone){
+    const col = document.createElement('div')
+    col.classList.add('col')
+    const card = document.createElement('div')
+    card.classList.add('media-card')
 
+    const imgContainer = document.createElement('div')
+    imgContainer.classList.add('media-cover')
 
-function Card(nomeArtista,immagine,nomeCanzone){
+    const canzone = document.createElement('h4')
+    canzone.classList.add('fs-6', 'fw-bold', 'text-truncate', 'mb-1')
+    canzone.textContent = nomeCanzone
+
+    const artista = document.createElement('p')
+    artista.classList.add('small', 'text-body-secondary', 'text-truncate', 'mb-0')
+    artista.textContent = nomeArtista
+
+    const img = document.createElement('img')
+    img.alt = ''
+    img.src = immagine
+
+    popRow.appendChild(col)
+    col.appendChild(card)
+    card.appendChild(imgContainer)
+    imgContainer.appendChild(img)
+    card.append(canzone, artista)   
+}
+
+/*function Card(nomeArtista,immagine,nomeCanzone){
     const card = document.createElement('div')
     card.classList.add('card','p-3','col-md-4','col-12','text-white','align-items-center')
     const imgContainer = document.createElement('div')
@@ -40,5 +67,5 @@ function Card(nomeArtista,immagine,nomeCanzone){
     card.appendChild(imgContainer)
     imgContainer.appendChild(img)
     card.append(nomeCanzone,nomeArtista)
-}
+}*/
 
