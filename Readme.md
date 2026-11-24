@@ -1,8 +1,5 @@
-ToDo
-giorno 24 mattina:
-completare micro.md importanza: Massima
-Pomeriggio:
-index e pagina search
+ToDo -> cose da fare
+in todo.md
 
 ---
 Progetto Realizzato da:
