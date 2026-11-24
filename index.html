@@ -24,17 +24,10 @@
           <div class="user-pill">Studente Epicode</div>
         </header>
 
-        <section class="home">
-          <!--
-            SEZIONI DA COSTRUIRE (vedi js/home.js):
-            - "Riprodotti di recente" (da localStorage history)
-            - "I tuoi preferiti" (da localStorage favourites)
-            
-            - "Suggerimenti pop"
-            - "Suggerimenti rock"
-            - "Suggerimenti italian pop"
-            Ogni sezione è un <section class="row"> con titolo h2 e una griglia di .card.
-          -->
+        <section class="home" id="home-sections">
+          <section class="row" id="row-recent" hidden>
+            <h2>Riprodotti di recente</h2>
+            <div> class="grid" id="<grid-recent></grid-recent> </div>
               <div class="row g-3" id="popRow">
                 <h2>Suggerimenti pop</h2>
               </div>
