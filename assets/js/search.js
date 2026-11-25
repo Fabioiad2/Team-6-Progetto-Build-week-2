@@ -2,7 +2,7 @@ const find = document.querySelector("#search-input")
 const rowBrani = document.querySelector('#row-tracks')
 const rowAlbums = document.querySelector('#row-albums')
 const rowArtists = document.querySelector('#row-artists')
-const detailModal = document.querySelector('#detailModal')
+const chiamatamodale = document.querySelector('#detailModal')
 const modalImage = document.querySelector('#modalImage')
 const modalTitle = document.querySelector('#modalTitle')
 const modalArtistType = document.querySelector('#modalArtistType')
@@ -15,11 +15,11 @@ const trackCount = document.querySelector('#trackCount')
 const releaseDate = document.querySelector('#releaseDate')
 const AlbumDuration = document.querySelector('#AlbumDuration')
 
-detailModal.addEventListener('show.bs.modal', event => {
+chiamatamodale.addEventListener('show.bs.modal', event => {
     const { detailId, detailType } = event.relatedTarget?.dataset ?? {}
     if (detailId) artistDetail(detailId, detailType === 'album' ? queryAlbum : queryArtistDetail)
 })
-detailModal.addEventListener('hidden.bs.modal', () => detailRequest?.abort())
+chiamatamodale.addEventListener('hidden.bs.modal', () => detailRequest?.abort())
 
 find.addEventListener('change', () => {
     FetchData(find.value)
