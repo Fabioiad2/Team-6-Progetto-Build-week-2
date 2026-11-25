@@ -11,6 +11,9 @@ const modalStatus = document.querySelector('#modalStatus')
 const modalTrackSection = document.querySelector('#modalTrackSection')
 const modalTracks = document.querySelector('#modalTracks')
 let detailRequest
+const trackCount = document.querySelector('#trackCount')
+const releaseDate = document.querySelector('#releaseDate')
+const AlbumDuration = document.querySelector('#AlbumDuration')
 
 detailModal.addEventListener('show.bs.modal', event => {
     const { detailId, detailType } = event.relatedTarget?.dataset ?? {}
@@ -47,9 +50,9 @@ async function FetchData(query) {
         Card(await Artisti.results, rowArtists)
         Card(await Album.results, rowAlbums)
 
-        console.log(await Artisti.results,"Artisti")
-        console.log(await Album.results,"album")
-        console.log(await Brani.results,"brani")
+        console.log(await Artisti.results, "Artisti")
+        console.log(await Album.results, "album")
+        console.log(await Brani.results, "brani")
     }
     catch (err) {
         console.error(err)
@@ -57,6 +60,8 @@ async function FetchData(query) {
 
     // return { Brani, Artisti, Album };
 }
+
+let urlSongSelected;
 
 async function artistDetail(id, query) {
     detailRequest?.abort()
@@ -93,16 +98,37 @@ async function artistDetail(id, query) {
         modalTitle.textContent = detail.collectionName || detail.artistName
         const artistInfo = detail.collectionName ? detail.artistName : detail.artistType
         modalArtistType.textContent = artistInfo || ''
+        trackCount.textContent += detail.trackCount
+        console.log(detail.releaseDate, "anno album")
+        releaseDate.textContent += detail.releaseDate ? new Date(detail.releaseDate).getFullYear() : 'N/A'
+        console.log(detail, "detail")
+        console.log(trackCount, "trackCount")
         modalArtistType.hidden = !artistInfo
         modalGenre.textContent = detail.primaryGenreName || ''
         modalGenre.hidden = !detail.primaryGenreName
 
+        const tracce = []
         for (const track of tracks) {
             const item = document.createElement('li')
+            console.log(track.trackTimeMillis, "track")
+            tracce.push(track.trackTimeMillis)
+            console.log(tracce)
             item.className = 'list-group-item'
             item.textContent = track.trackName
             modalTracks.appendChild(item)
         }
+
+        function formatTime(ms = 0) {
+            const sec = Math.floor(ms / 1000);
+
+            return `${Math.floor(sec / 60)}:${String(sec % 60).padStart(2, "0")}`;
+        }
+        const accumulator = tracce.reduce(
+            (accumulator, currentValue) => accumulator + currentValue,
+            0,
+        );
+        AlbumDuration.textContent += formatTime(accumulator)
+        console.log(accumulator, "valore calcolato")
         modalTrackSection.hidden = tracks.length === 0
         modalStatus.textContent = tracks.length ? '' : 'Nessun brano disponibile.'
     } catch (err) {
@@ -111,6 +137,8 @@ async function artistDetail(id, query) {
         console.error(err)
     }
 }
+
+
 
 
 function Card(artist, section) {
@@ -122,8 +150,15 @@ function Card(artist, section) {
         const col = document.createElement('div')
         col.classList.add('col')
         let detailId
-        if (section === rowArtists) detailId = a.artistId
-        if (section === rowAlbums) detailId = a.collectionId
+        if (section === rowArtists) {
+            detailId = a.artistId
+        }
+        else if (section === rowAlbums) detailId = a.collectionId
+
+        // else if(section == rowBrani){
+        //     urlSongSelected = a.previewUrl
+        //      console.log(a.previewUrl)
+        // }
 
         const card = document.createElement(detailId ? 'a' : 'div')
         card.classList.add('media-card')
