@@ -27,27 +27,25 @@
   document.querySelector('#btn-back').addEventListener('click', () => history.back());
   document.querySelector('#btn-forward').addEventListener('click', () => history.forward());
 
-  let favorites;
-  try {
-    favorites = JSON.parse(localStorage.getItem('favorites'));
-  } catch {
-    favorites = [];
-  }
-
   const list = sidebar.querySelector('.sidebar-list');
-  if (Array.isArray(favorites)) {
-    for (const favorite of favorites) {
-      if (typeof favorite?.title !== 'string' || !favorite.title.trim()) continue;
+  function mostraPreferiti() {
+    list.replaceChildren();
+    for (const favorite of libreriaMusicale.leggiPreferiti()) {
+      const title = favorite.trackName || favorite.title;
+      if (typeof title !== 'string' || !title.trim()) continue;
 
       const item = document.createElement('li');
-      item.textContent = favorite.title;
+      item.textContent = title;
       list.appendChild(item);
+    }
+
+    if (!list.children.length) {
+      const emptyItem = document.createElement('li');
+      emptyItem.textContent = 'Nessun preferito';
+      list.appendChild(emptyItem);
     }
   }
 
-  if (!list.children.length) {
-    const emptyItem = document.createElement('li');
-    emptyItem.textContent = 'Nessun preferito';
-    list.appendChild(emptyItem);
-  }
+  libreriaMusicale.osservaLista('preferiti', mostraPreferiti);
+  mostraPreferiti();
 })();

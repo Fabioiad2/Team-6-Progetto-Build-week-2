@@ -176,5 +176,8 @@ function playTrack(track) {
   timeCurrent.textContent = '0:00';
   timeTotal.textContent = '0:00';
   aggiornaFill(progress);
-  audio.play().catch(console.error);
+  return audio.play().then(() => true, error => {
+    console.error(error);
+    return false;
+  });
 }
