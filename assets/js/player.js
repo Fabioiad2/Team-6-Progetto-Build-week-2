@@ -116,13 +116,21 @@ function aggiornaFill(slider) {
 btnPlay.addEventListener('click', () => {
   if (!audio.src) return; // nessun brano scelto
   if (audio.paused) {
-    audio.play();
-    btnPlay.textContent = '⏸';
+    audio.play().catch(console.error);
   } else {
     audio.pause();
-    btnPlay.textContent = '▶';
   }
 });
+
+function aggiornaPlay() {
+  btnPlay.textContent = audio.paused ? '▶' : '⏸';
+  btnPlay.setAttribute('aria-label', audio.paused ? 'Riproduci' : 'Pausa');
+}
+
+audio.addEventListener('play', aggiornaPlay);
+audio.addEventListener('pause', aggiornaPlay);
+audio.addEventListener('ended', aggiornaPlay);
+aggiornaPlay();
 
 // avanzamento del brano
 audio.addEventListener('timeupdate', () => {
@@ -136,13 +144,9 @@ audio.addEventListener('loadedmetadata', () => {
   timeTotal.textContent = formatTime(audio.duration);
 });
 
-// a fine brano il bottone torna su play
-audio.addEventListener('ended', () => {
-  btnPlay.textContent = '▶';
-});
-
 // trascinando la barra salto a quel punto
 progress.addEventListener('input', () => {
+  if (!Number.isFinite(audio.duration)) return;
   audio.currentTime = (progress.value / 100) * audio.duration;
   aggiornaFill(progress);
 });
@@ -163,7 +167,14 @@ function playTrack(track) {
   audio.src = track.url;
   titolo.textContent = track.title;
   artista.textContent = track.artist;
-  cover.src = track.cover;
-  audio.play();
-  btnPlay.textContent = '⏸';
+  if (track.cover) {
+    cover.src = track.cover;
+  } else {
+    cover.removeAttribute('src');
+  }
+  progress.value = 0;
+  timeCurrent.textContent = '0:00';
+  timeTotal.textContent = '0:00';
+  aggiornaFill(progress);
+  audio.play().catch(console.error);
 }

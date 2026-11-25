@@ -1,50 +1,61 @@
 <!DOCTYPE html>
 <html lang="it" data-bs-theme="dark">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>EpiTunes — Home</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-yEPZ7jP9S0QKiUQ0m3jjsO4ProIW7wvR9gXkI7JOGa2XVsw53Yke2bsdkBbjmmiX" crossorigin="anonymous">
 
-    <link rel="stylesheet" href="assets/css/app.css" />
-    <link rel="stylesheet" href="assets/css/player.css" />
-    
-  </head>
-  <body>
-    <div class="app">
-      <aside class="sidebar">
-        <!-- Riempi via JS in common.js -->
-      </aside>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>EpiTunes — Home</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.9/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-yEPZ7jP9S0QKiUQ0m3jjsO4ProIW7wvR9gXkI7JOGa2XVsw53Yke2bsdkBbjmmiX" crossorigin="anonymous">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet" />
 
-      <main class="main">
-        <header class="topbar">
-          <div class="topbar-nav">
-            <button class="nav-btn" aria-label="Indietro">‹</button>
-            <button class="nav-btn" aria-label="Avanti">›</button>
+  <link rel="stylesheet" href="assets/css/app.css" />
+  <link rel="stylesheet" href="assets/css/player.css" />
+  <script defer src="assets/js/sidebar.js"></script>
+
+</head>
+
+<body data-page="home">
+  <div class="app app-with-sidebar">
+    <aside class="sidebar" id="sidebar"></aside>
+
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-nav d-flex gap-2">
+          <button type="button" class="nav-btn" id="btn-back" aria-label="Indietro">‹</button>
+          <button type="button" class="nav-btn" id="btn-forward" aria-label="Avanti">›</button>
+        </div>
+        <div class="user-pill">Studente Epicode</div>
+      </header>
+
+      <section class="home" id="home-sections">
+        <section class="row" id="row-recent" >
+          <h2>Riprodotti di recente</h2>
+          <!-- <div> class="grid" id="<grid-recent></grid-recent> </div> -->
+          <div class="row g-3" id="popRow">
+            <h2>Suggerimenti pop</h2>
           </div>
-          <div class="user-pill">Studente Epicode</div>
-        </header>
 
-        <section class="home" id="home-sections">
-          <section class="row" id="row-recent" hidden>
-            <h2>Riprodotti di recente</h2>
-            <div> class="grid" id="<grid-recent></grid-recent> </div>
-              <div class="row g-3" id="popRow">
-                <h2>Suggerimenti pop</h2>
-              </div>
+          <div class="row g-3" id="rockRow">
+            <h2>Suggerimenti rock</h2>
+          </div>
+
+          <div class="row g-3" id="hitsRow">
+            <h2>Suggerimenti hits</h2>
+          </div>
+          
         </section>
-      </main>
+    </main>
 
-      <footer class="player">
-        <!-- Riempi via JS in common.js -->
-      </footer>
-    </div>
+    <footer class="player" id="player"></footer>
+  </div>
 
-    <audio id="audio-element"></audio>
+  <audio id="audio-element"></audio>
 
-    <!-- <script src="js/common.js"></script> -->
-    <script src="assets/js/index.js"></script>
-    <script src="assets/js/player.js"></script>
-    
-  </body>
+  <!-- <script src="js/common.js"></script> -->
+  <script src="assets/js/index.js"></script>
+  <script src="assets/js/player.js"></script>
+
+</body>
+
 </html>

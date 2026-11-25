@@ -160,9 +160,26 @@ function Card(artist, section) {
             img.src = a.artworkUrl100
         }
 
+        imgContainer.appendChild(img)
+        if (section === rowBrani && a.previewUrl) {
+            const playButton = document.createElement('button')
+            playButton.type = 'button'
+            playButton.classList.add('card-play')
+            playButton.textContent = '▶'
+            playButton.setAttribute('aria-label', `Riproduci anteprima di ${a.trackName}`)
+            playButton.addEventListener('click', () => {
+                playTrack({
+                    url: a.previewUrl,
+                    title: a.trackName,
+                    artist: a.artistName,
+                    cover: a.artworkUrl100,
+                })
+            })
+            imgContainer.appendChild(playButton)
+        }
+
         grid.appendChild(col)
         col.appendChild(card)
-        imgContainer.appendChild(img)
         card.append(imgContainer, canzone, artista, genereMusicale)
     })
 }

@@ -256,9 +256,16 @@ a {
   background: rgba(0, 0, 0, 0.55);
   color: #fff;
 }
-.media-card:hover .card-play {
+.media-card:hover .card-play,
+.card-play:focus-visible {
   opacity: 1;
   transform: translateY(0);
+}
+@media (hover: none) {
+  .card-play {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 .media-card:hover .card-fav,
 .card-fav.is-fav {
@@ -498,9 +505,38 @@ a {
   .app {
     grid-template-columns: 0 1fr;
   }
-  .sidebar,
+  .app:not(.app-with-sidebar) .sidebar,
   .player-right {
     display: none !important;
+  }
+  .app.app-with-sidebar {
+    grid-template-columns: minmax(0, 1fr);
+    grid-template-rows: auto minmax(0, 1fr) 90px;
+    grid-template-areas:
+      "sidebar"
+      "main"
+      "player";
+  }
+  .app-with-sidebar .sidebar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 8px 12px;
+  }
+  .app-with-sidebar .brand {
+    padding: 0;
+  }
+  .app-with-sidebar .sidebar-nav {
+    flex-direction: row;
+    margin-bottom: 0;
+  }
+  .app-with-sidebar .sidebar-nav a {
+    gap: 6px;
+    padding: 8px;
+  }
+  .app-with-sidebar .brand-text,
+  .app-with-sidebar .sidebar-nav span {
+    display: inline;
   }
   .player {
     grid-template-columns: 1fr 1fr;

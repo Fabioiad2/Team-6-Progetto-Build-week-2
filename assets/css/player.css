@@ -180,3 +180,39 @@
 .player-volume {
   width: auto;
 }
+
+.player-info > div,
+.player-progress input {
+  min-width: 0;
+}
+
+@media (max-width: 540px) {
+  .player {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 110px);
+    grid-template-areas:
+      "info volume"
+      "controls controls";
+    gap: 4px 8px;
+    padding: 6px 12px;
+  }
+  .player-info {
+    grid-area: info;
+  }
+  .player-cover {
+    width: 32px;
+    height: 32px;
+  }
+  .player-controls {
+    grid-area: controls;
+    flex-direction: row;
+  }
+  .player-buttons {
+    gap: 4px;
+  }
+  .player-volume {
+    grid-area: volume;
+  }
+  .player-volume input {
+    min-width: 0;
+  }
+}
