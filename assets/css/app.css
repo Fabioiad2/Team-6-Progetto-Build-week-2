@@ -8,6 +8,10 @@
    ============================================================ */
 
 /* ---------- Variabili + override del tema dark di Bootstrap ---------- */
+footer, aside{
+  z-index: 9999 !important;
+}
+
 [data-bs-theme="dark"] {
   --bg-base: #121212;
   --bg-elev: #181818;

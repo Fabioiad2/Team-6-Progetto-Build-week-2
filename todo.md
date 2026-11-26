@@ -72,3 +72,8 @@ Progetto chiuso
 Testare e finire gli extra 
 astrarre il codice e pulirlo
 Contrallare se ci sono bug
+
+
+
+
+[] -  quando stoppiamo il brano dalla modale e lo mandiamo in play il brano ricomincia da capo
