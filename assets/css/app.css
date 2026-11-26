@@ -7,14 +7,14 @@
    look "Spotify", card, tracklist e player.
    ============================================================ */
 
-/* ---------- Variabili + override del tema dark di Bootstrap ---------- */
-footer, aside{
-  z-index: 9999 !important;
+/* ---------- Misure del layout (usate dalla griglia E dalla modale) ---------- */
+:root {
+  --sidebar-w: 240px; /* larghezza sidebar */
+  --sidebar-h: 0px;   /* altezza sidebar quando diventa barra in alto (≤540px): la misura JS */
+  --player-h: 90px;   /* altezza player: la misura JS (il player è position: fixed) */
 }
 
-#modalTrackSection{
-  padding-bottom: 50px;
-}
+/* ---------- Variabili + override del tema dark di Bootstrap ---------- */
 
 [data-bs-theme="dark"] {
   --bg-base: #121212;
@@ -54,8 +54,8 @@ a {
 
 .app {
   display: grid;
-  grid-template-columns: 240px 1fr;
-  grid-template-rows: 1fr 90px;
+  grid-template-columns: var(--sidebar-w) 1fr;
+  grid-template-rows: 1fr var(--player-h);
   grid-template-areas:
     "sidebar main"
     "player  player";
@@ -588,6 +588,29 @@ a {
 
 /* ============================ Modale dettaglio ============================ */
 
+/* La modale occupa solo l'area di .main: parte dopo la sidebar e finisce
+   sopra il player. Bootstrap la mette a top/left 0 con width/height 100%:
+   qui la "ritagliamo" con i bordi presi dalle variabili del layout. */
+#detailModal {
+  top: var(--sidebar-h);
+  left: var(--sidebar-w);
+  right: 0;
+  bottom: var(--player-h);
+  width: auto;
+  height: auto;
+}
+/* .modal-fullscreen usa width: 100vw → sarebbe più larga dell'area */
+#detailModal .modal-dialog {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  margin: 0;
+}
+#detailModal .modal-content {
+  border-radius: 0;
+  box-shadow: -12px 0 40px rgba(0, 0, 0, 0.5);
+}
+
 .modal-detail {
   background:
     radial-gradient(ellipse 85% 28rem at 12% 0, rgba(247, 216, 0, 0.16), transparent),
@@ -816,8 +839,8 @@ a {
 /* ============================ Responsive ============================ */
 
 @media (max-width: 800px) {
-  .app {
-    grid-template-columns: 80px 1fr;
+  :root {
+    --sidebar-w: 80px;
   }
   .brand-text,
   .sidebar-section-title,
@@ -840,8 +863,8 @@ a {
 }
 
 @media (max-width: 540px) {
-  .app {
-    grid-template-columns: 0 1fr;
+  :root {
+    --sidebar-w: 0px; /* la sidebar va sopra: niente spazio a sinistra */
   }
   .app:not(.app-with-sidebar) .sidebar,
   .player-right {
@@ -849,7 +872,7 @@ a {
   }
   .app.app-with-sidebar {
     grid-template-columns: minmax(0, 1fr);
-    grid-template-rows: auto minmax(0, 1fr) 90px;
+    grid-template-rows: auto minmax(0, 1fr) var(--player-h);
     grid-template-areas:
       "sidebar"
       "main"

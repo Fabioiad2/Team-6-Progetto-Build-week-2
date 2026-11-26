@@ -207,6 +207,24 @@
         }
     }
 
+    // Misuro sidebar e player e passo le misure al CSS (--sidebar-h, --player-h),
+    // così la modale sta esattamente nello spazio tra i due.
+    // - sotto i 540px la sidebar diventa una barra in alto con altezza "auto"
+    // - il player è position: fixed e cambia altezza su mobile
+    const sidebar = document.querySelector('#sidebar')
+    const player = document.querySelector('#player')
+    const schermoPiccolo = window.matchMedia('(max-width: 540px)')
+    function misuraLayout() {
+        const radice = document.documentElement.style
+        const altezzaSidebar = schermoPiccolo.matches && sidebar ? sidebar.offsetHeight : 0
+        radice.setProperty('--sidebar-h', `${altezzaSidebar}px`)
+        if (player?.offsetHeight) radice.setProperty('--player-h', `${player.offsetHeight}px`)
+    }
+    const osservatore = new ResizeObserver(misuraLayout) // scatta anche subito
+    if (sidebar) osservatore.observe(sidebar)
+    if (player) osservatore.observe(player)
+    schermoPiccolo.addEventListener('change', misuraLayout)
+
     modale.addEventListener('show.bs.modal', event => {
         const { detailId, detailType } = event.relatedTarget?.dataset ?? {}
         if (detailId) caricaDettaglio(detailId, detailType)
