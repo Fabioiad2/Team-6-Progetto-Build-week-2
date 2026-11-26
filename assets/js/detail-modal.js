@@ -188,6 +188,9 @@
             }
             titolo.textContent = dettaglio.collectionName || dettaglio.artistName
             artista.textContent = (mostraAlbum ? dettaglio.artistName : dettaglio.artistType) || ''
+            artista.addEventListener('click',()=>{
+                caricaDettaglio(dettaglio.artistId, 'artista')
+            })
             artista.hidden = !artista.textContent
             genere.textContent = dettaglio.primaryGenreName || ''
             genere.hidden = !genere.textContent
