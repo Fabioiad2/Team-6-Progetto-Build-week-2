@@ -77,3 +77,12 @@ Contrallare se ci sono bug
 
 
 [] -  quando stoppiamo il brano dalla modale e lo mandiamo in play il brano ricomincia da capo
+[DA FARE OPZIONALE] - dentro il dettaglio nella modale album al click dell'artista potrebbe aprire il dettaglio artista
+
+[DA FARE] local storage volume
+
+[DA FARE] funzionalità tasti in basso
+
+[DA FARE] tasto mute
+
+[DA FARE] nel dettaglio quando un play finisce il brano passa al successivo

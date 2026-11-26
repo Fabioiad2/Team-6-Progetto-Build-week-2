@@ -12,6 +12,10 @@ footer, aside{
   z-index: 9999 !important;
 }
 
+#modalTrackSection{
+  padding-bottom: 50px;
+}
+
 [data-bs-theme="dark"] {
   --bg-base: #121212;
   --bg-elev: #181818;

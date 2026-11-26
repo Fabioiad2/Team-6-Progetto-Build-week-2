@@ -11,11 +11,11 @@
     const audio = document.querySelector('#audio-element')
     let richiesta
 
-    const formattaDurata = millisecondi => {
-        if (!Number.isFinite(millisecondi)) return ''
-        const secondi = Math.round(millisecondi / 1000)
-        return `${Math.floor(secondi / 60)}:${String(secondi % 60).padStart(2, '0')}`
-    }
+    // const formattaDurata = millisecondi => {
+    //     if (!Number.isFinite(millisecondi)) return ''
+    //     const secondi = Math.round(millisecondi / 1000)
+    //     return `${Math.floor(secondi / 60)}:${String(secondi % 60).padStart(2, '0')}`
+    // }
 
     // ".../100x100bb.jpg" → ".../600x600bb.jpg" per una copertina nitida
     const copertinaHD = url => url.replace(/\/\d+x\d+bb(?=\.\w+$)/, '/600x600bb')
@@ -40,7 +40,7 @@
             && brani.every(brano => Number.isFinite(brano.trackTimeMillis))
         let durata = '—'
         if (durataCompleta) {
-            durata = formattaDurata(brani.reduce((totale, brano) => totale + brano.trackTimeMillis, 0))
+            // durata = formattaDurata(brani.reduce((totale, brano) => totale + brano.trackTimeMillis, 0))
             const millisecondi = brani.reduce((totale, brano) => totale + brano.trackTimeMillis, 0)
             durata = convertims(millisecondi)
         }
@@ -95,7 +95,7 @@
 
         const durata = document.createElement('span')
         durata.className = 'track-duration d-none d-sm-inline'
-        durata.textContent = formattaDurata(brano.trackTimeMillis)
+        // durata.textContent = formattaDurata(brano.trackTimeMillis)
 
         const durataSingola = document.createElement('span')
         durataSingola.textContent = convertims(brano.trackTimeMillis)
