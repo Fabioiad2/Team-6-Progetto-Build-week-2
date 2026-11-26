@@ -11,6 +11,12 @@
     const audio = document.querySelector('#audio-element')
     let richiesta
 
+    function convertims(ms){
+            const secondi = Math.floor(ms / 1000)
+            const durata = `${Math.floor(secondi / 60)}:${String(secondi % 60).padStart(2, '0')}`
+            return `${durata}m`
+    }
+
     function mostraDettagliAlbum(album, brani) {
         const anno = album.releaseDate && new Date(album.releaseDate).getUTCFullYear()
         const numeroBrani = album.trackCount ?? brani.length
@@ -19,8 +25,7 @@
         let durata = '—'
         if (durataCompleta) {
             const millisecondi = brani.reduce((totale, brano) => totale + brano.trackTimeMillis, 0)
-            const secondi = Math.floor(millisecondi / 1000)
-            durata = `${Math.floor(secondi / 60)}:${String(secondi % 60).padStart(2, '0')}`
+            durata = convertims(millisecondi)
         }
 
         dettagliAlbum.querySelector('#releaseDate').textContent = `Anno di uscita ${anno || '—'}`
@@ -54,7 +59,9 @@
 
         const nome = document.createElement('span')
         nome.textContent = brano.trackName
-
+        const durataSingola = document.createElement('span')
+        durataSingola.textContent = convertims(brano.trackTimeMillis)
+        console.log(durataSingola)
         const pulsanti = document.createElement('div')
         pulsanti.className = 'd-flex flex-shrink-0 gap-3'
 
@@ -83,7 +90,7 @@
         } else {
             riproduci.setAttribute('aria-label', 'Anteprima non disponibile')
         }
-        pulsanti.appendChild(riproduci)
+        pulsanti.append(durataSingola,riproduci)
 
         if (brano.trackId != null) {
             const preferito = document.createElement('button')
