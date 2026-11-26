@@ -1,5 +1,6 @@
-ToDo -> cose da fare
-in todo.md
+🎵 Music App
+
+Web app per esplorare musica: cerca brani, artisti e album, consulta i dettagli, ascolta le anteprime e salva i tuoi preferiti nel browser.
 
 ---
 Progetto Realizzato da:
@@ -12,11 +13,19 @@ Ziino Laura Nicoletta- js e css
 
 
 
-🎵 Music App
-
-Web app per esplorare musica: cerca brani, artisti e album, consulta i dettagli, ascolta le anteprime e salva i tuoi preferiti nel browser
 
 
+Funzionalità
+Home con suggerimenti: tre righe di album (Pop, Rock e Hits), 10 album ciascuna, caricate in parallelo dall'API iTunes.
+Ricerca: campo di ricerca che interroga l'API per brani, album e artisti e mostra i risultati in tre sezioni.
+Collegamento delle card ai dettagli tramite id: ogni card della home porta con sé l'id dell'album (data-detail-id) e il tipo (data-detail-type). Al click la modale legge questi dati e li usa per chiedere il dettaglio all'API iTunes con lookup.
+Dettaglio in modale: in index.html, il click su una card apre una modale Bootstrap con copertina, titolo, artista e genere. Per gli album aggiunge anno di uscita, numero di brani, durata totale (in m:ss) e l'elenco dei brani, fino a 200. Per gli artisti mostra tipo di artista e 15 brani. Mostra "Caricamento…" mentre aspetta l'API, un messaggio in caso di errore o se non ci sono brani, e annulla la richiesta in corso se la modale viene chiusa.
+Riproduzione dal click su un brano: il pulsante ▶ accanto a ogni brano fa partire l'anteprima e aggiorna il player in fondo alla pagina con titolo, artista e copertina. Il pulsante diventa ⏸ mentre il brano è in riproduzione e permette di metterlo in pausa. Se un brano non ha l'anteprima, il pulsante è disabilitato.
+Aggiunta e rimozione dei preferiti: ogni brano nella modale ha un pulsante ♡/♥. Un click aggiunge il brano ai preferiti, un secondo click lo rimuove. Il pulsante resta sempre sincronizzato, anche se i preferiti cambiano da un'altra parte dell'app. Lo stesso brano non può essere salvato due volte.
+Cronologia dei brani riprodotti: ogni volta che parte un'anteprima, il brano viene aggiunto alla cronologia. Se ne tiene al massimo 5, con il più recente in cima, e un brano riascoltato non si duplica ma torna in prima posizione. La sezione "Riprodotti di recente" della home si aggiorna da sola.
+Modulo libreriaMusicale per preferiti e cronologia: un modulo unico che gestisce la lettura e la scrittura nel localStorage. Ogni salvataggio emette un evento, così le pagine si aggiornano senza ricaricare, anche tra schede diverse del browser. Se i dati salvati sono corrotti o il localStorage è bloccato, l'app continua a funzionare con liste vuote. Legge ancora la vecchia chiave favorites per compatibilità.
+Player: footer fisso con copertina, titolo e artista del brano, pulsante play/pausa, barra di avanzamento con tempo trascorso e durata totale, e cursore del volume.
+Salvataggio del volume nel localStorage: il valore del cursore (0-100) viene salvato a ogni modifica con la chiave volume e ripristinato al caricamento della pagina. Se non c'è nulla di salvato, parte da 80.
 Struttura del progetto
 Pagina	File	Descrizione
 Home	index.html	Suggerimenti, cronologia e preferiti, con sidebar e player
@@ -30,7 +39,7 @@ I dati arrivano dall'API di iTunes Search (https://itunes.apple.com/), con count
 search: suggerimenti della home e ricerca
 lookup: dettaglio di album e artisti (brani, anno, durata, genere)
 
-Le anteprime audio sono quelle fornite dall'API (previewUrl): se un brano non ne ha una, il pulsante Play è disabilitato.
+Le anteprime audio sono quelle fornite dall'API (previewUrl). Se un brano non ne ha una, il pulsante Play è disabilitato.
 
 Sidebar
 
@@ -74,33 +83,20 @@ Ogni brano ha due pulsanti:
 ▶ / ⏸: avvia o mette in pausa l'anteprima. Il player si aggiorna e il brano viene salvato nella cronologia
 ♡ / ♥: aggiunge o rimuove il brano dai preferiti
 
-Durante il caricamento compare "Caricamento…"; in caso di errore o risultati vuoti viene mostrato un messaggio. Chiudendo la modale, la richiesta in corso viene annullata.
+Durante il caricamento compare "Caricamento…". In caso di errore o di risultati vuoti viene mostrato un messaggio. Chiudendo la modale, la richiesta in corso viene annullata.
 
 Pagina Cerca (search.html)
-Come funziona
-L'utente scrive nel campo #search-input e conferma (Invio o uscita dal campo, evento change).
-Partono tre richieste in parallelo (Promise.all) all'API iTunes Search, con country=IT e al massimo 10 risultati ciascuna.
-Le risposte vengono convertite in JSON e ogni lista di risultati diventa una serie di card.
+
+L'utente scrive il termine nel campo #search-input e conferma (Invio o uscita dal campo, evento change). Partono tre richieste in parallelo (Promise.all) all'API iTunes Search, con country=IT e al massimo 10 risultati ciascuna.
+
 Sezione	Entità iTunes	Contenitore
 Brani	song	#row-tracks
 Album	album	#row-albums
 Artisti	musicArtist	#row-artists
-Card dei risultati
 
-Ogni risultato è una card Bootstrap (col-md-4 col-12) con:
+Ogni risultato viene mostrato in una card Bootstrap (col-md-4 col-12) con copertina (artworkUrl100), titolo, artista (artistName) e genere (primaryGenreName).
 
-copertina (artworkUrl100)
-titolo
-artista (artistName)
-genere musicale (primaryGenreName)
-Limiti attuali
-I risultati di una nuova ricerca si aggiungono a quelli precedenti.
-Le card degli artisti non hanno copertina né titolo, perché l'API non li restituisce per questa entità.
-Le card dei brani mostrano il nome dell'album invece del titolo del brano.
-Le card non sono ancora cliccabili: niente modale di dettaglio, Play o preferiti come nella home.
-La pagina non carica ancora common.js, quindi sidebar e player restano vuoti.
-
-Questi punti sono elencati nella Roadmap.
+La pagina è ancora in lavorazione: i punti da completare sono elencati in Sviluppi futuri.
 
 Pagina Album (album.html)
 
@@ -124,7 +120,7 @@ Il player è il <footer class="player"> fisso in fondo alla pagina, riempito via
 Controlli disponibili:
 
 Play / Pausa del brano corrente
-Barra di avanzamento: mostra il tempo trascorso e la durata totale, e permette di saltare a un punto del brano
+Barra di avanzamento: mostra il tempo trascorso e la durata totale e permette di saltare a un punto del brano
 Volume: il valore scelto viene salvato nel localStorage (chiave volume) e ripristinato al caricamento della pagina. Se non c'è nessun valore salvato, parte da 80
 
 I pulsanti shuffle, precedente, successivo e ripeti sono presenti ma non ancora funzionanti.
@@ -166,26 +162,19 @@ Apri index.html nel browser (meglio con un server locale, es. Live Server di VS 
 
 Serve una connessione internet per le chiamate all'API.
 
-Roadmap
+Sviluppi futuri
 
-Base
+Ricerca
 
-[x] Collegare le card ai dettagli tramite id (modale nella home)
-[x] Aggiunta e rimozione dei preferiti
-[x] Cronologia dei brani riprodotti
-[x] Modulo libreriaMusicale per preferiti e cronologia
-[x] Salvataggio del volume del player nel localStorage
-[ ] Svuotare i risultati prima di una nuova ricerca
-[ ] Card artisti: mostrare il nome dell'artista come titolo e gestire l'assenza di copertina
-[ ] Card brani: mostrare il titolo del brano (trackName) al posto del nome dell'album
-[ ] Collegare le card della ricerca al dettaglio e al player, come nella home
-[ ] Caricare common.js anche in search.html (sidebar e player)
-[ ] Usare i contenitori #grid-* di search.html per le card (ora restano vuoti)
-[ ] Codificare il termine di ricerca (encodeURIComponent) e gestire la ricerca vuota
-[ ] Player: implementare shuffle, brano precedente/successivo e ripeti
+Svuotare i risultati prima di una nuova ricerca
+Card artisti: mostrare il nome dell'artista come titolo e gestire l'assenza di copertina
+Card brani: mostrare il titolo del brano (trackName) al posto del nome dell'album
+Collegare le card al dettaglio e al player, come nella home
+Usare i contenitori #grid-* di search.html per le card
+Codificare il termine di ricerca (encodeURIComponent) e gestire la ricerca vuota
+Caricare common.js anche in search.html (sidebar e player)
 
-Extra
+Player
 
-[x] Dettaglio in modale: in index.html, il click su una card apre la modale con copertina, titolo, artista, anno, durata e brani
-[x] Riproduzione dal click su un brano: parte l'anteprima e il player si aggiorna con titolo, artista e copertina
-[ ] Testi delle canzoni: nel player, un pulsante per mostrare le lyrics del brano in riproduzione
+Implementare shuffle, brano precedente/successivo e ripeti
+Pulsante per mostrare il testo (lyrics) del brano in riproduzione

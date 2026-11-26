@@ -155,10 +155,15 @@ progress.addEventListener('input', () => {
 volume.addEventListener('input', () => {
   audio.volume = volume.value / 100;
   aggiornaFill(volume);
+  localStorage.setItem('volume', volume.value);
 });
 
 // stato iniziale
-audio.volume = 0.8;
+const volumeSalvato = localStorage.getItem('volume');
+if (volumeSalvato !== null) {
+  volume.value = volumeSalvato;
+}
+audio.volume = volume.value / 100;
 aggiornaFill(volume);
 aggiornaFill(progress);
 
