@@ -15,6 +15,14 @@
 }
 
 /* ---------- Variabili + override del tema dark di Bootstrap ---------- */
+.player-volume span{
+  cursor: pointer;
+}
+
+#modalArtistType{
+  cursor: pointer;
+}
+
 
 [data-bs-theme="dark"] {
   --bg-base: #121212;
