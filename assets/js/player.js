@@ -77,6 +77,8 @@ controls.appendChild(buttons);
 controls.appendChild(progressBox);
 
 //     DESTRA: volume //
+
+
 const volumeBox = document.createElement('div');
 volumeBox.classList.add('player-volume');
 
@@ -88,6 +90,13 @@ volume.type = 'range';
 volume.min = 0;
 volume.max = 100;
 volume.value = 80;
+
+// audio muted
+iconaVolume.addEventListener('click', () => {
+  audio.muted = !audio.muted;
+
+  iconaVolume.textContent = audio.muted ? '🔇' : '🔈';
+});
 
 volumeBox.appendChild(iconaVolume);
 volumeBox.appendChild(volume);
