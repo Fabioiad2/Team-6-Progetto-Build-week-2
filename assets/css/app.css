@@ -1123,3 +1123,64 @@ a {
     min-width: 0;
   }
 }
+
+
+/* Artista cliccabile (solo vista album) → pillola rosa con icona personaggio */
+#modalArtistType:not([hidden]):has(~ #modalAlbumDetails:not([hidden])) {
+  --rosa: #ff5fa2;
+
+  display: inline-flex;
+  align-items: center;
+  gap: 0.55rem;
+  width: fit-content;
+  margin-top: 0.85rem;
+  padding: 0.3rem 1rem 0.3rem 0.35rem;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(6px);
+  color: #fff;
+  font-size: 1.15rem;
+  font-weight: 700;
+  line-height: 1.2;
+  cursor: pointer;
+  transition:
+    background 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease,
+    transform 0.2s ease;
+}
+
+/* icona personaggio (Bootstrap Icons: person-fill) */
+#modalArtistType:not([hidden]):has(~ #modalAlbumDetails:not([hidden]))::before {
+  content: "\F4DA";
+  font-family: "bootstrap-icons";
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  width: 1.95rem;
+  height: 1.95rem;
+  border-radius: 50%;
+  background: var(--rosa);
+  color: #000;
+  font-size: 1.05rem;
+  font-weight: normal;
+  line-height: 1;
+  transition: transform 0.2s ease;
+}
+
+/* hover: alone rosa e l'icona si ingrandisce un po' */
+#modalArtistType:not([hidden]):has(~ #modalAlbumDetails:not([hidden])):hover {
+  border-color: color-mix(in srgb, var(--rosa) 60%, transparent);
+  background: color-mix(in srgb, var(--rosa) 12%, transparent);
+  box-shadow: 0 0 0 4px color-mix(in srgb, var(--rosa) 12%, transparent);
+  transform: translateY(-1px);
+}
+#modalArtistType:not([hidden]):has(~ #modalAlbumDetails:not([hidden])):hover::before {
+  transform: scale(1.1);
+}
+
+/* click: piccolo "schiacciamento" */
+#modalArtistType:not([hidden]):has(~ #modalAlbumDetails:not([hidden])):active {
+  transform: scale(0.97);
+}
