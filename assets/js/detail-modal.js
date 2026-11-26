@@ -11,6 +11,22 @@
     const audio = document.querySelector('#audio-element')
     let richiesta
 
+    const formattaDurata = millisecondi => {
+        if (!Number.isFinite(millisecondi)) return ''
+        const secondi = Math.round(millisecondi / 1000)
+        return `${Math.floor(secondi / 60)}:${String(secondi % 60).padStart(2, '0')}`
+    }
+
+    // ".../100x100bb.jpg" → ".../600x600bb.jpg" per una copertina nitida
+    const copertinaHD = url => url.replace(/\/\d+x\d+bb(?=\.\w+$)/, '/600x600bb')
+
+    function icona(nome) {
+        const i = document.createElement('i')
+        i.className = `bi ${nome}`
+        i.setAttribute('aria-hidden', 'true')
+        return i
+    }
+
     function mostraDettagliAlbum(album, brani) {
         const anno = album.releaseDate && new Date(album.releaseDate).getUTCFullYear()
         const numeroBrani = album.trackCount ?? brani.length
@@ -18,9 +34,7 @@
             && brani.every(brano => Number.isFinite(brano.trackTimeMillis))
         let durata = '—'
         if (durataCompleta) {
-            const millisecondi = brani.reduce((totale, brano) => totale + brano.trackTimeMillis, 0)
-            const secondi = Math.floor(millisecondi / 1000)
-            durata = `${Math.floor(secondi / 60)}:${String(secondi % 60).padStart(2, '0')}`
+            durata = formattaDurata(brani.reduce((totale, brano) => totale + brano.trackTimeMillis, 0))
         }
 
         dettagliAlbum.querySelector('#releaseDate').textContent = `Anno di uscita ${anno || '—'}`
@@ -33,35 +47,55 @@
         const salvati = new Set(libreriaMusicale.leggiPreferiti().map(brano => String(brano.trackId)))
         for (const pulsante of listaBrani.querySelectorAll('button[data-track-id]')) {
             const preferito = salvati.has(pulsante.dataset.trackId)
-            pulsante.className = preferito ? 'btn btn-danger btn-sm' : 'btn btn-outline-danger btn-sm'
-            pulsante.textContent = preferito ? '♥' : '♡'
+            const nome = pulsante.dataset.trackName
+            pulsante.classList.toggle('is-fav', preferito)
+            pulsante.firstElementChild.className = preferito ? 'bi bi-heart-fill' : 'bi bi-heart'
             pulsante.setAttribute('aria-pressed', String(preferito))
+            pulsante.setAttribute('aria-label', `${preferito ? 'Rimuovi' : 'Aggiungi'} ${nome} ${preferito ? 'dai' : 'ai'} preferiti`)
         }
     }
 
     function aggiornaRiproduzione() {
         for (const pulsante of listaBrani.querySelectorAll('button[data-preview-url]')) {
             const inRiproduzione = audio.src === pulsante.dataset.previewUrl && !audio.paused && !audio.ended
-            pulsante.textContent = inRiproduzione ? '⏸' : '▶'
+            pulsante.classList.toggle('is-playing', inRiproduzione)
+            pulsante.closest('li')?.classList.toggle('is-playing', inRiproduzione)
+            pulsante.firstElementChild.className = inRiproduzione ? 'bi bi-pause-fill' : 'bi bi-play-fill'
             const azione = inRiproduzione ? 'Metti in pausa' : 'Riproduci anteprima di'
             pulsante.setAttribute('aria-label', `${azione} ${pulsante.dataset.trackName}`)
         }
     }
 
     function creaRigaBrano(brano) {
+        // il numero arriva dal ::before di .list-group-numbered;
+        // .me-auto sul blocco info lo tiene attaccato al numero e spinge a destra durata e pulsanti
         const riga = document.createElement('li')
-        riga.className = 'list-group-item d-flex justify-content-between align-items-center gap-3'
+        riga.className = 'list-group-item track-item d-flex align-items-center gap-3'
+
+        const info = document.createElement('div')
+        info.className = 'track-info me-auto'
 
         const nome = document.createElement('span')
+        nome.className = 'track-name d-block text-truncate'
         nome.textContent = brano.trackName
+        nome.title = brano.trackName
+
+        const sottotitolo = document.createElement('span')
+        sottotitolo.className = 'track-artist d-block text-truncate'
+        sottotitolo.textContent = brano.artistName || ''
+        info.append(nome, sottotitolo)
+
+        const durata = document.createElement('span')
+        durata.className = 'track-duration d-none d-sm-inline'
+        durata.textContent = formattaDurata(brano.trackTimeMillis)
 
         const pulsanti = document.createElement('div')
-        pulsanti.className = 'd-flex flex-shrink-0 gap-3'
+        pulsanti.className = 'd-flex flex-shrink-0 align-items-center gap-2'
 
         const riproduci = document.createElement('button')
         riproduci.type = 'button'
-        riproduci.className = 'btn btn-sm'
-        riproduci.textContent = '▶'
+        riproduci.className = 'btn-track btn-track-play'
+        riproduci.appendChild(icona('bi-play-fill'))
         riproduci.disabled = !brano.previewUrl
         if (brano.previewUrl) {
             riproduci.dataset.previewUrl = brano.previewUrl
@@ -88,13 +122,15 @@
         if (brano.trackId != null) {
             const preferito = document.createElement('button')
             preferito.type = 'button'
+            preferito.className = 'btn-track btn-track-fav'
             preferito.dataset.trackId = brano.trackId
-            preferito.setAttribute('aria-label', `${brano.trackName} tra i preferiti`)
+            preferito.dataset.trackName = brano.trackName
+            preferito.appendChild(icona('bi-heart'))
             preferito.addEventListener('click', () => libreriaMusicale.cambiaPreferito(brano))
             pulsanti.appendChild(preferito)
         }
 
-        riga.append(nome, pulsanti)
+        riga.append(info, durata, pulsanti)
         return riga
     }
 
@@ -106,12 +142,14 @@
 
         titolo.textContent = 'Dettaglio'
         immagine.hidden = true
+        immagine.classList.toggle('rounded-circle', !mostraAlbum)
         artista.hidden = true
         genere.hidden = true
         dettagliAlbum.hidden = true
         sezioneBrani.hidden = true
         listaBrani.replaceChildren()
         stato.textContent = 'Caricamento…'
+        stato.dataset.loading = ''
 
         try {
             const query = new URLSearchParams({
@@ -134,7 +172,7 @@
             const brani = risultati.filter(risultato => risultato.kind === 'song' && risultato.trackName)
             const copertina = dettaglio.artworkUrl100 || brani.find(brano => brano.artworkUrl100)?.artworkUrl100
             if (copertina) {
-                immagine.src = copertina
+                immagine.src = copertinaHD(copertina)
                 immagine.hidden = false
             }
             titolo.textContent = dettaglio.collectionName || dettaglio.artistName
@@ -153,6 +191,8 @@
             if (signal.aborted) return
             stato.textContent = 'Impossibile caricare il dettaglio.'
             console.error(err)
+        } finally {
+            if (!signal.aborted) delete stato.dataset.loading
         }
     }
 
@@ -160,7 +200,10 @@
         const { detailId, detailType } = event.relatedTarget?.dataset ?? {}
         if (detailId) caricaDettaglio(detailId, detailType)
     })
-    modale.addEventListener('hidden.bs.modal', () => richiesta?.abort())
+    modale.addEventListener('hidden.bs.modal', () => {
+        richiesta?.abort()
+        delete stato.dataset.loading
+    })
     for (const evento of ['play', 'pause', 'ended', 'emptied']) {
         audio.addEventListener(evento, aggiornaRiproduzione)
     }
