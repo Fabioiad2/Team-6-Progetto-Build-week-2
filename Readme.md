@@ -18,7 +18,10 @@ Il progetto è stato sviluppato durante la **build week** del corso di Web Devel
 ## 🖼️ Anteprima
 
 <!-- Sostituisci con i vostri screenshot -->
-![EpiTunes su desktop](docs/anteprima-desktop.png)
+
+EpiTunes su desktop![alt text](./assets/images/Screenshot%202026-11-27%20151319.png)
+
+![alt text](./assets/images/Screenshot%202026-11-27%20151358.png)
 
 ---
 
@@ -261,6 +264,7 @@ La vecchia chiave `favorites` viene ancora letta come alternativa, se `preferiti
 - **Richieste annullate**: aprendo un'altra modale o chiudendola, la richiesta precedente viene interrotta. Gestito da JS.
 - **Muto** cliccando l'icona del volume si muta. Gestito da JS.
 - **Pillola dell'artista** cliccabile nella modale dell'album, riconosciuta grazie a CSS con `:has()` e una piccola funzione in Js. Gestito da JS e CSS.
+- **Easter Egg** cliccando il button premium appare un Easter egg. Gestito da CSS e JS.
 
 ---
 
