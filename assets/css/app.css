@@ -8,6 +8,29 @@
    ============================================================ */
 
 /* ---------- Misure del layout (usate dalla griglia E dalla modale) ---------- */
+.img-rotonda{
+  border-radius: 50%;
+  width: 576px;
+  height: 576px;
+  object-fit: contain;
+  animation: rotazione 3s linear infinite;
+
+}
+
+/* img {
+    animation: rotazione 3s linear infinite;
+} */
+
+@keyframes rotazione {
+    from {
+        transform: rotate(0deg);
+    }
+
+    to {
+        transform: rotate(360deg);
+    }
+}
+
 :root {
   --sidebar-w: 240px; /* larghezza sidebar */
   --sidebar-h: 0px;   /* altezza sidebar quando diventa barra in alto (≤540px): la misura JS */
@@ -32,6 +55,7 @@
   --accent: #f7d800;   /* giallo Epicode */
   --success: #1ed760;  /* verde "play" */
   --danger: #e25555;
+   --rosa: #ff5fa2;
   --radius-sm: 6px;
   --radius-md: 10px;
   --shadow: 0 6px 24px rgba(0, 0, 0, 0.5);
@@ -43,6 +67,58 @@
   --bs-border-color: #2a2a2a;
   --bs-body-font-size: 0.875rem;
 }
+
+
+/* @keyframes ruota{
+  from {
+    transform: translate(0deg);
+  }
+  50%{
+    transform: translate(180deg);
+  }
+  to{
+    transform: translate(360deg);
+  }
+} */
+.contenitoreRosa {
+  background: var(--rosa) !important;
+  min-height: 100vh; /* occupa tutta l'altezza per centrare anche in verticale */
+}
+.contenitoreMeme{
+  background-image: url('../extra/Vinile-semplice.webp');
+  /* position: relative; */
+  width: 100%;
+  background-repeat: no-repeat;
+
+}
+.contenitoreMeme {
+  position: relative;
+  width: 500px;  /* regola la grandezza totale del vinile da qui */
+  height: 500px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.vinile-bg {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  animation: rotazione 3s linear infinite; /* opzionale: fa girare anche il vinile */
+}
+
+.img-rotonda {
+  position: absolute;
+  width: 170px !important;
+  height: 170px !important;
+  max-width: none !important;
+  max-height: none !important;
+  border-radius: 50%;
+  object-fit: cover;
+  animation: rotazione 3s linear infinite;
+}
+
+
 
 html,
 body {
@@ -1135,8 +1211,6 @@ a {
 
 /* Artista cliccabile (solo vista album) → pillola rosa con icona personaggio */
 #modalArtistType:not([hidden]):has(~ #modalAlbumDetails:not([hidden])) {
-  --rosa: #ff5fa2;
-
   display: inline-flex;
   align-items: center;
   gap: 0.55rem;

@@ -3,8 +3,44 @@
   const sidebarTemplate = document.querySelector('#sidebar-template');
   const itemTemplate = document.querySelector('#sidebar-item-template');
   if (!sidebar || !sidebarTemplate || !itemTemplate) return;
-
+  const row = document.querySelector('main')
+  const player = document.querySelector('#player')
   // clono il contenuto del <template>
+  const audio = new Audio('./assets/extra/Rick Astley - Never Gonna Give You Up (Official Video) (4K Remaster)_128k.mp3');
+
+  const freePremium = document.createElement('button')
+  freePremium.textContent = 'Passa a Premium Offerta Limitata'
+freePremium.addEventListener('click', () => {
+  audio.play();
+  row.textContent = '';
+  player.textContent = '';
+
+  // Centra il box del vinile in mezzo alla pagina rosa
+  row.classList.add('contenitoreRosa', 'd-flex', 'justify-content-center', 'align-items-center');
+  const cit = document.createElement('h2')
+  const accettazione = document.createElement('button')
+  accettazione.textContent = 'Lo accetto'
+  accettazione.addEventListener('click',()=>{
+    window.location.href = ''
+  })
+  cit.classList.add('d-block')
+  cit.textContent = 'Niente è gratuito nella vita'
+  const contenitore = document.createElement('div');
+  contenitore.classList.add('contenitoreMeme');
+
+  const vinile = document.createElement('img');
+  vinile.src = './assets/extra/Vinile-semplice.webp';
+  vinile.classList.add('vinile-bg');
+
+  const img = document.createElement('img');
+  img.src = './assets/extra/images.jpg';
+  img.classList.add('img-rotonda');
+
+  contenitore.append(vinile, img);
+  row.append(cit,accettazione,contenitore);
+});
+
+
   sidebar.replaceChildren(sidebarTemplate.content.cloneNode(true));
 
   const currentLink = sidebar.querySelector(`.sidebar-nav [data-page="${document.body.dataset.page}"]`);
@@ -38,7 +74,7 @@
     for (const favorite of libreriaMusicale.leggiPreferiti()) {
       const title = favorite.trackName || favorite.title;
       if (typeof title !== 'string' || !title.trim()) continue;
-      list.appendChild(creaVocePreferito(favorite, title));
+      list.append(freePremium,creaVocePreferito(favorite, title));
     }
 
     if (!list.children.length) {
