@@ -27,15 +27,15 @@ Da Fare e finita la giornata
 
 - [V] Artist - ascoltatori mensili, durata singola canzone / si apre solo qaundo sei in search e clicci sulla card   
 
-- [F ] Album - durata singola canzone 
+- [V] Album - durata singola canzone 
 
 - [F ] Style - Rivedere il tutto 
 
 - [F] Redmi 
 
-- [F] aggiungere player ad album e ad artist (nella modale dettaglio)
+- [V] aggiungere player ad album e ad artist (nella modale dettaglio)
 
-- [F] aggiungere la sidebar nei dettagli
+- [V] aggiungere la sidebar nei dettagli
 
 - [V] Extra Rendere la modale un componente che viene chiamato da index e search (controllare)
 
@@ -83,6 +83,20 @@ Contrallare se ci sono bug
 
 [DA FARE] funzionalità tasti in basso
 
-[DA FARE] tasto mute
+[Fatto]tasto mute
 
 [DA FARE] nel dettaglio quando un play finisce il brano passa al successivo
+
+
+Ultimo Giorno:
+Cose da fare:
+
+scaffolding -> organizzazione di file e cartelle -> durante lo scaffolding segnamo tutte le principali funzioni della nostra app che poi inseriremo nel readme
+verifica funzionamento delle funzionalità principali
+Fare il readme -> Partire da quello esistente
+finire gli extra -> 
+Extra rickrollare tutta la classe -> lo pensa Laura
+definire la presentazione
+
+!! EXTRA MOLTO EXTRA!!
+PRESENTAZIONE
