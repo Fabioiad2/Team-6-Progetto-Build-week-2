@@ -206,11 +206,8 @@ Questa repository contiene il codice sorgente di Music App, una web app che perm
 ## Funzionalità
 
 🖼️ Anteprima
-Itunes su desktop con il tema scuro Desktop con il tema scuro (predefinito)
+Epify      su desktop con il tema scuro Desktop con il tema scuro (predefinito) 
 
-Mobile	Tema chiaro	Modalità semplificata
-SportsHub su mobile	SportsHub con il tema chiaro	SportsHub in modalità semplificata
-✅ Stato del progetto: completato: versione 3.0. Questo file viene aggiornato a mano a mano che il progetto viene realizzato.
 
 📑 Indice
 Anteprima
@@ -243,48 +240,56 @@ Ultimi risultati: della Premier League e delle squadre preferite, in una strisci
 Barra di navigazione: bottone Preferiti con contatore, modalità semplificata e tema scuro / chiaro (predefinito: scuro), con le scelte salvate.
 Footer: pannelli "About us" e "Accessibilità" e copyright con l'anno automatico.
 Pallone dell'app: entra rotolando, mostra "Scarica la nostra app!" e apre la modal di invito all'app.
+
 🛠️ Tecnologie Utilizzate
-HTML5: struttura semantica (header, nav, main, section, article, footer) con attributi di accessibilità.
+HTML5: abbiamo due html con strutture semantiche (header, section, footer, audio, modale, template, aside) con attributi di accessibilità.
+
 CSS3: variabili CSS per i temi, Flexbox, clamp(), linear-gradient, scroll-snap, transizioni, @keyframes e media query.
+
 Bootstrap 5.3.8 (CDN): griglia, utility, form, navbar, spinner, alert, badge, modal, toast, collapse e tema con data-bs-theme. Si usa la 5.3.8 perché è l'ultima versione stabile riportata nella documentazione ufficiale (la 5.3.9 non lo è).
-Bootstrap Icons 1.13.2 (CDN) e Google Fonts (Oswald, Barlow, Atkinson Hyperlegible).
-JavaScript (ES6+): moduli ES, classi con campi static, fetch con async/await, Promise.all / allSettled, AbortController, debounce, localStorage, Intl.DateTimeFormat, API JavaScript di Bootstrap e DOM senza innerHTML.
-TheSportsDB API v1 con la chiave gratuita 123 e foto da Pexels (vedi Crediti).
-Shields.io: i badge delle tecnologie in cima a questo README, con i loghi della raccolta Simple Icons.
-⚠️ Limiti della chiave gratuita: la ricerca è limitata, gli endpoint degli eventi restituiscono una sola partita e il limite è di 30 richieste al minuto (oltre, status 429). Fonte: documentazione ufficiale di TheSportsDB.
+Bootstrap Icons 1.13.2 (CDN)
+
+JavaScript (ES6+): moduli ES, (classi con campi static), fetch con async/await, Promise.all / (allSettled, AbortController, debounce), localStorage, Intl.DateTimeFormat, API JavaScript di Bootstrap e DOM senza innerHTML.
+
+(TheSportsDB API v1 con la chiave gratuita 123 e foto da Pexels (vedi Crediti).
+Shields.io: i badge delle tecnologie in cima a questo README, con i loghi della raccolta Simple Icons.)
+
+⚠️ Limiti della chiave gratuita: abbiamo un limite dei cantanti e le canzoni restituiscono solo i 30 secondi del brano indicato, 
+il limite è di 20 richieste al minuto (oltre, status 429). Fonte: documentazione ufficiale di iTunes Search API.
 
 🚀 Come Eseguire il Progetto Locale
 Clona il repository:
 
-git clone https://github.com/lisasciacca/progetto-settimana-7
+git clone https://github.com/Fabioiad2/Team-6-Progetto-Build-week-2
+
 Apri l'applicazione con Live Server: Il progetto usa i moduli ES (<script type="module">), quindi non può essere aperto con un doppio clic su index.html, perché il browser bloccherebbe i moduli con un errore CORS. Usa un server locale, per esempio l'estensione Live Server di VS Code: tasto destro su index.html → Open with Live Server.
 
 📁 Struttura del progetto
-.
+├── index.html            # Pagina principale
+├── search/
+│   └── search.html       # Pagina di ricerca
 ├── assets/
 │   ├── css/
-│   │   └── style.css      stile personalizzato
-│   ├── img/               screenshot di anteprima per il README
-│   └── js/
-│       ├── main.js        punto di ingresso: eventi e coordinamento
-│       ├── api.js         chiamate fetch verso TheSportsDB
-│       ├── ui.js          creazione degli elementi nel DOM
-│       ├── storage.js     salvataggio dei preferiti in localStorage
-│       ├── tema.js        gestione del tema chiaro / scuro
-│       ├── semplificata.js  modalità semplificata (accessibilità)
-│       ├── segnaposto.js  partite di esempio per completare i risultati
-│       ├── Squadra.js     class Squadra
-│       └── Evento.js      class Evento
-├── .gitignore
-├── index.html             struttura principale della web app
-└── README.md              documentazione del progetto
-📱 Architettura, Responsive Design e Media Query
+│   │   └── app.css       # Stili dell'applicazione
+│   ├── js/
+│   │   ├── components/   # detail-modal, media-card, player, sidebar
+│   │   ├── pages/        # index, search
+│   │   └── utilities/    # Funzioni di supporto
+│   └── epicode-logo.png
+├── Progettazione/        # Materiale di progettazione
+├── todo.md
+└── terminal.md
+
+
+
+
+(📱 Architettura, Responsive Design e Media Query
 Approccio One-page e Mobile-First, con il contenuto centrato in un contenitore largo al massimo 1100px e una barra di navigazione fissa in alto (sticky-top).
 
 Mobile (<768px): hero con testo centrato, una card squadra per riga, una partita visibile nella striscia, dettagli su una colonna, footer su due righe.
 Tablet (768px - 991px): hero con testo a destra della foto, due card per riga, due partite visibili, dettagli su due colonne.
 PC (≥992px): tre card per riga e tre partite visibili.
-Le card squadra usano flex: 1 1 280px, quindi si adattano da sole; le strisce di partite usano le media query min-width: 768px e 992px. prefers-reduced-motion disattiva le animazioni.
+Le card squadra usano flex: 1 1 280px, quindi si adattano da sole; le strisce di partite usano le media query min-width: 768px e 992px. prefers-reduced-motion disattiva le animazioni.)
 
 🌳 Albero del DOM
 <header class="barra">: navbar con marchio #link-marchio e bottoni #btn-vai-preferiti, #btn-semplificata, #btn-tema.
